@@ -17,7 +17,12 @@ The extension uses:
 Installation
 ------------
 
-- Install SPARQL Wrapper and simplejson (Needed for the previous one) in -> ckanext-sparql/ckanext/sparql/lib 
-- Install the extension:
-  - python setup.py develop
-  - sudo service apache2 reload
+- Install SPARQL Wrapper and simplejson (Needed for the previous one) in:
+  
+  ckanext-sparql/ckanext/sparql/lib 
+
+- Install the extension::
+  
+  $ python setup.py develop
+  $ sudo service apache2 reload
+
