@@ -1,0 +1,6 @@
+
+        [ckan.plugins]
+	# Add plugins here, eg
+	# myplugin=ckanext.sparql:PluginClass
+	sparql_interface = ckanext.sparql.plugin:SparqlPlugin
+	

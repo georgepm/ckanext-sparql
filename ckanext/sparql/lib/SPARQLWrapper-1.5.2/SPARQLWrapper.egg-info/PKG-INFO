@@ -1,0 +1,19 @@
+Metadata-Version: 1.1
+Name: SPARQLWrapper
+Version: 1.5.2
+Summary: SPARQL Endpoint interface to Python
+Home-page: http://sparql-wrapper.sourceforge.net/
+Author: Ivan Herman, Sergio Fernandez, Carlos Tejo Alonso
+Author-email: ivan at ivan-herman net, sergio.fernandez at salzburgresearch.at, carlos.tejo at fundacionctic org
+License: W3C SOFTWARE NOTICE AND LICENSE
+Download-URL: http://sourceforge.net/projects/sparql-wrapper/files
+Description: This is a wrapper around a SPARQL service. It helps in creating the query URI and, possibly, convert the result into a more manageable format.
+Keywords: python SPARQL
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: W3C License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 3
+Requires: rdflib

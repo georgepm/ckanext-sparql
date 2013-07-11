@@ -1,0 +1,16 @@
+{% block content %}
+    
+    <div> 
+    
+    	{% set results = h.sparql_query() %}
+        
+        <ul>
+        {% for result in results["results"]["bindings"] %}
+        	<li>{{ result }}</li>
+        {% endfor %}
+        <ul>
+    
+    </div>
+  
+{% endblock %}
+

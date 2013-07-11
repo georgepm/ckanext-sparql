@@ -1,0 +1,66 @@
+{% extends "page.html" %}
+
+{% block head_extras %}
+
+<!-- Sparql base CSS/JS and Jquery -->
+
+<link rel="stylesheet" href="{% url_for_static '/public_sparql/base_styles.css' %}">
+<script src="{% url_for_static '/public_sparql/jquery-1.9.1.min.js' %}"></script>
+
+<!-- Code Mirror CSS/JS -->
+
+<link rel="stylesheet" href="{% url_for_static '/public_sparql/codemirror/lib/codemirror.css' %}">
+<script src="{% url_for_static '/public_sparql/codemirror/lib/codemirror.js' %}"></script>
+<script src="{% url_for_static '/public_sparql/codemirror/lib/mode.sparql.js' %}"></script>
+<link rel="stylesheet" href="{% url_for_static '/public_sparql/codemirror/themes/default.css' %}">
+    
+{% endblock %}
+
+{% block breadcrumb_content %}
+
+  <li class="active">{{ 'Sparql Point' }}</li>
+  
+{% endblock %}
+
+{% block primary %}
+	
+    <div id="sparql_point_block">
+        
+        <h1>SPARQL Editor</h1>
+        
+        <div class="control-group control-full">
+        	<label class="control-label" for="field-sparql-server">Sparql Point Server</label>
+            <div class="controls">
+                <input id="field-sparql-server" type="text" name="sparql-server" value="http://data2.b.upf.edu:8890/sparql" placeholder="">
+            </div>
+        </div>
+        
+        <textarea id="sparql_code" name="sparql_code"  resize="both">SELECT * WHERE { ?s ?p ?o. } LIMIT 10</textarea>
+        <button id="sparql_btn" class="btn" onclick="call_sparql_point_server();">Submit Query</button>
+        
+        <div id="sparql_link_query" class="control-group control-full">
+            <label class="control-label" for="field-link-sparql-server-query">Link for this query</label>
+            <div class="controls">
+                <input id="field-link-sparql-server-query" type="text" name="sparql-server-query" value="" placeholder="">
+            </div>
+        </div>
+        
+        <div id="sparql_results"></div>
+    
+    </div>
+  
+{% endblock %}
+
+{% block secondary %}{% endblock %}
+
+{% block scripts %}
+  {{ super() }}  
+  
+	{% set current_url = request.environ.CKAN_CURRENT_URL %}
+  
+  <!-- Base JS -->
+  
+  <script src="{% url_for_static '/public_sparql/base.js' %}"></script>
+  
+{% endblock %}
+

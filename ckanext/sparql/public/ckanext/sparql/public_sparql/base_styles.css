@@ -1,0 +1,52 @@
+#sparql_point_block {
+	margin-left: 25px;
+	margin-right: 25px;
+	margin-top: 25px;
+}
+
+#sparql_btn {
+	margin-bottom: 25px;
+	margin-top: 20px;
+}
+
+#sparql_results {
+	margin-bottom: 25px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+	border:1px solid black;
+}
+
+#sparql_link_query {
+	margin-bottom: 25px;
+}
+
+#sparql_code {
+}
+
+/* LODUM PROJECT - CSS STYLES */
+
+.CodeMirror {
+	border: 1px solid black; 
+	border-bottom: 1px solid black;
+}
+	
+.activeline {
+	background: #f0fcff !important;
+}
+
+.sparql-results a:link, .sparql-results a:visited{
+	color: #3366cc;
+}
+
+.sparql-results a:hover{
+	color: #3333cc;
+} 
+
+.sparql-results td{
+	padding-right: 20px;
+}
+
+
+
