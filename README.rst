@@ -26,3 +26,7 @@ Installation
   $ python setup.py develop
   $ sudo service apache2 reload
 
+- Add it in your configuration file:
+
+  ckan.plugins = sparql_interface ..... (other plugins...)  
+
