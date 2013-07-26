@@ -1,16 +1,46 @@
 {% block content %}
     
-    <div> 
+    {% set direct_link = h.check_direct_link() %}
+
+    {% if direct_link == '0' %}
     
-    	{% set results = h.sparql_query() %}
+        <div>
+            
+            {% set results = h.sparqlQuery('python') %}
+            
+            <table class="table table-bordered sparql_table">
+            <caption>SPARQL Results</caption>
+            <thead>
+              <tr>
+              {% for result in results["head"]["vars"] %}
+                <th>{{ result }}</th>
+              {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+            {% for result in results["results"]["bindings"] %}
+            {% set rowloop = loop %}
+              <tr>
+              {% for attributes, values in result.iteritems() %}
+                <td>{{ values.value }}</td>
+              {% endfor %}
+              </tr>
+            {% endfor %}
+            </tbody>
+            </table>
         
-        <ul>
-        {% for result in results["results"]["bindings"] %}
-        	<li>{{ result }}</li>
-        {% endfor %}
-        <ul>
+        </div>
     
-    </div>
+    {% elif direct_link == '1' %}
+    	
+        {% set results_python_data_structure = h.sparqlQuery('json') %}
+        
+        {{ results_python_data_structure }}
+        
+    {% else %}
+    
+    	{{ direct_link }}
+    
+    {% endif %}
   
 {% endblock %}
-
