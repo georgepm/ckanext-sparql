@@ -1,7 +1,8 @@
 CKAN Sparql Interface Extension
 -------------------------------
 
-Note: The ``ckanext-sparql`` extension was tested using Virtuoso sparql instances such as http://semantic.ckan.net/sparql.
+Note: The ``ckanext-sparql`` extension was tested using ``Virtuoso sparql instances`` such as http://semantic.ckan.net/sparql.
+
 I will try to make it work for other type of sparql instances.
 
 - **Version:** 1.01
@@ -17,9 +18,9 @@ Requeriments
 
 The extension use:
 
-- CodeMirror for the code editor in the browser -> (http://codemirror.net/)
+- ``CodeMirror`` for the code editor in the browser -> (http://codemirror.net/)
 
-May be extended to use SPARQLWrapper (http://sparql-wrapper.sourceforge.net/) library - SPARQL Endpoint interface to Python
+May be extended to use ``SPARQLWrapper`` (http://sparql-wrapper.sourceforge.net/) library - SPARQL Endpoint interface to Python
 
 Installation
 ============
@@ -35,11 +36,11 @@ Add it in your configuration file:
 
 	$ vim /etc/ckan/default/production.ini
 
-Go the plugins line and add the "sparql_interface" plugin
+Go the plugins line and add the ``sparql_interface`` plugin
 ::
 	ckan.plugins = sparql_interface ..... (other plugins...)
 
-Restart Apache:
+Reload Apache:
 ::
 
 	$ service apache2 reload
@@ -48,27 +49,26 @@ USE
 ===
 
 Go to:
-
 ::
 	http://[Custom URL]/sparql
 
 Querys work in:
-
 ::
 	http://[Custom URL]/query?query=
 
-To send code through http to the sparql interface:
+To send code through ``http`` to the sparql interface:
 ::
 	http://[Custom URL]/sparql?view_code=
   
 Notes
 =====
 
-You can edit the code (templates/ckanext/sparql/index.html) to add your custom sparql endpoint URL and default query:
-
+You can edit the code ``templates/ckanext/sparql/index.html`` to add your custom sparql endpoint URL and default query:
 ::
 	Line 44
 	<input..... value="http://[custom url]/sparql" placeholder=".....
+
+Then
 
 ::
 	Line 54, After
