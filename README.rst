@@ -1,5 +1,5 @@
 CKAN Sparql Interface Extension
-===============================
+-------------------------------
 
 Note: The ``ckanext-sparql`` extension was tested using Virtuoso sparql instances such as http://semantic.ckan.net/sparql.
 I will try to make it work for other type of sparql instances.
