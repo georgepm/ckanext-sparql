@@ -69,7 +69,6 @@ You can edit the code ``templates/ckanext/sparql/index.html`` to add your custom
 	<input..... value="http://[custom url]/sparql" placeholder=".....
 
 Then
-
 ::
 	Line 54, After
 	<textarea id="sparql_code" name="sparql_code"  resize="both">
