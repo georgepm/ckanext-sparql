@@ -1,0 +1,125 @@
+{% extends "page.html" %}
+
+{% block head_extras %}
+
+<meta name="description" content="Sparql EndPoint Interface.">
+
+  	<header class="sparql_hideme">
+		<p>Sparql EndPoint Interface.</p>
+	</header>
+
+<!-- Sparql base CSS/JS and Jquery -->
+
+<link rel="stylesheet" href="{% url_for_static '/public_sparql/base_styles.css' %}">
+<script src="{% url_for_static '/public_sparql/jquery-1.9.1.min.js' %}"></script>
+
+<!-- Code Mirror CSS/JS -->
+
+<link rel="stylesheet" href="{% url_for_static '/public_sparql/codemirror/lib/codemirror.css' %}">
+<script src="{% url_for_static '/public_sparql/codemirror/lib/codemirror.js' %}"></script>
+<script src="{% url_for_static '/public_sparql/codemirror/lib/mode.sparql.js' %}"></script>
+<link rel="stylesheet" href="{% url_for_static '/public_sparql/codemirror/themes/default.css' %}">
+    
+{% endblock %}
+
+{% block breadcrumb_content %}
+
+  <li class="active">{{ 'Sparql Point' }}</li>
+  
+{% endblock %}
+
+{% block primary %}
+
+  	<header class="sparql_hideme">
+		<p>Sparql EndPoint Interface.</p>
+	</header>
+	
+    <div id="sparql_point_block">
+        
+        <h1>SPARQL Editor</h1>
+        
+        <div class="control-group control-full">
+        	<label class="control-label" for="field-sparql-server">Sparql Point Server</label>
+            <div class="controls">
+                <input id="field-sparql-server" type="text" name="sparql-server" value="http://semantic.ckan.net/sparql" placeholder="Add the sparql service URL. For Instance: http://semantic.ckan.net/sparql">
+            </div>
+            <i class="icon-exclamation-sign"></i>&nbsp;<small>Add the Sparql service URL. For Instance: <abbr title="Sparql Point"><a target="_blank" href="http://semantic.ckan.net/sparql">http://semantic.ckan.net/sparql</a></abbr></small>
+        </div>
+        
+		<i class="icon-comment"></i><small><abbr title="Code Mirror"><a target="_blank" href="http://codemirror.net/">&nbsp;Created using Code Mirror for the interface</a></abbr></small>
+		<br><br>
+
+		<div id="test_sparql" class="sparql_hideme"></div>
+
+<textarea id="sparql_code" name="sparql_code"  resize="both">
+#Add here other prefixes for vocabularies that are needed
+#PREFIX othervocab: <http://...... 
+
+SELECT * 
+WHERE {
+  	?s ?p ?o
+      } 
+LIMIT 20
+</textarea>
+
+        <button id="sparql_btn" class="btn" onclick="call_sparql_point_server();">Submit Query</button>
+        
+        <div id="sparql_link_query" class="control-group control-full">
+            <label class="control-label" for="field-link-sparql-server-query">Permanent links</label>
+            
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_json">JSON Format<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;(You can copy the permanent link below)</b></small><br>
+            <div class="controls">
+                <input id="field-link-sparql-server-query_json" type="text" name="sparql-server-query" value="" placeholder="">
+            </div>
+            
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_turtle">TURTLE Format<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;(You can copy the permanent link below)</b></small><br>
+            <div class="controls">
+                <input id="field-link-sparql-server-query_turtle" type="text" name="sparql-server-query" value="" placeholder="">
+            </div>
+            
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_csv">CSV Format<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;(You can copy the permanent link below)</b></small><br>
+            <div class="controls">
+                <input id="field-link-sparql-server-query_csv" type="text" name="sparql-server-query" value="" placeholder="">
+            </div>
+            
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_query">Permanent Link for this Query (To save your Query)<i class="icon-link"></i></a></abbr></small>
+            
+            
+        </div>
+        <br>
+    	<div id="loading_image" class="span8 offset1">
+			<center><img src="{% url_for_static '/public_sparql/gif-load.gif' %}" alt="Loading"></center>
+			<br>
+			<br>
+			<br>
+		</div>
+        
+        <div id="sparql_results"></div>
+    
+    </div>
+  
+{% endblock %}
+
+{% block secondary %}{% endblock %}
+
+{% block scripts %}
+  {{ super() }}  
+  
+	{% set current_url = request.environ.CKAN_CURRENT_URL %}
+  
+  <!-- Base JS -->
+  
+  <script src="{% url_for_static '/public_sparql/base.js' %}"></script>
+  
+  <script type="text/javascript">
+  
+  	$(document).ready(function(){
+	  var sparql_query = GetURLParameter('view_code');
+	  if (sparql_query != "" && sparql_query != undefined) {
+	  	editor.setValue(decodeURIComponent((sparql_query+'').replace(/\+/g, '%20')));
+	  }
+	});
+  
+  </script>
+  
+{% endblock %}

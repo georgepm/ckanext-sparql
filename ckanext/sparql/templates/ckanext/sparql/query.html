@@ -1,0 +1,59 @@
+{% block content %}{% set direct_link = h.check_direct_link() %}{% if direct_link == '0' %}
+        <div>
+            {% set results = h.sparqlQuery('') %}
+            <table class="table table-bordered sparql_table">
+            <caption>SPARQL Results</caption>
+            <thead>
+              <tr>
+              <th>#</th>
+              {% for result in results["head"]["vars"] %}
+                <th>{{ result }}</th>
+              {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+            {% set counter = 1 %}
+            {% for result in results["results"]["bindings"] %}
+            {% set rowloop = loop %}
+              <tr>
+              <td> {{ counter }} </td>
+              {% set index = 0 %}
+              {% for attributes, values in result.iteritems() %}
+                {% if attributes == results["head"]["vars"][index] %}
+                	{% set urlschema = h.check_is_url(values.value) %}
+                    {% if  urlschema == "http" or urlschema == "https" %}
+                    	<td><a href="" onClick="view_resource('{{ values.value }}'); return false;">{{ values.value }}</a></td>
+                    {% else %}
+                    	<td>{{ values.value }}</td>
+                    {% endif %}
+                {% else %}
+                    <td></td>
+                	{% set index = (index + 1) -%}
+                	{% set flag = 0 %}
+                	{% set temp_counter = 0 %}
+                	{% for listheaders in results["head"]["vars"] %}
+                		{% if listheaders == attributes %}
+                			{% set urlschema = h.check_is_url(values.value) %}
+                    		{% if  urlschema == "http" or urlschema == "https" %}
+                    			<td><a href="" onClick="view_resource('{{ values.value }}'); return false;">{{ values.value }}</a></td>
+                    		{% else %}
+                    			<td>{{ values.value }}</td>
+                    		{% endif %}
+                			{% set index = (index + 1) -%}
+                			{% set flag = (flag + 1) -%}
+                		{% elif temp_counter >= index and flag == 0 %}
+                		 	<td></td>
+                			{% set index = (index + 1) -%}
+                		{% endif %}
+                	{% set temp_counter = (temp_counter + 1) -%}
+                	{% endfor %}
+                {% endif %}
+              {% set index = (index + 1) -%}
+              {% endfor %}
+              </tr>
+            {% set counter = (counter + 1) -%}  
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+{% elif direct_link == '1' %}{% set results_python_data_structure = h.sparqlQuery('') %}{{ results_python_data_structure | safe }}{% else %}{{ direct_link }}{% endif %}{% endblock %}
