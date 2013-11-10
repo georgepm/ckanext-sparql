@@ -1,19 +1,19 @@
 CKAN Sparql Interface Extension
 ===============================
 
-Note: This extension was tested using Virtuoso sparql instances such as http://semantic.ckan.net/sparql.
+Note: The <code>ckanext-sparql</code> extension was tested using Virtuoso sparql instances such as http://semantic.ckan.net/sparql.
 I will try to make it work for other type of sparql instances.
 
-**Version: 1.01
+**Version:** 1.01
 **Status:** Development
 **CKAN Version:** >= 2.*
 
 Description
-------------
+===========
 This is a simple extension, but may be useful for someone that wants to include a Sparql Interface Editor in their CKAN instances. The idea is based on the Sparql Editor of the LODUM project from the University of Munsters Open Data initiative (http://data.uni-muenster.de/php/sparql/).
 
 Requeriments
-------------
+============
 
 The extension uses:
 
@@ -22,7 +22,7 @@ The extension uses:
 May be extended to use SPARQLWrapper (http://sparql-wrapper.sourceforge.net/) library - SPARQL Endpoint interface to Python
 
 Installation
-------------
+============
 
   $ mkdir /usr/lib/ckan/default/src/ckanext-sparql
   $ cd /usr/lib/ckan/default/src/ckanext-sparql
@@ -40,7 +40,7 @@ Installation
   $ service apache2 reload
   
 USE
----
+===
 
 Go to:
 
@@ -55,7 +55,7 @@ To send code through http to the sparql interface:
 http://[Custom URL]/sparql?view_code=
   
 Notes
------
+=====
 
 You can edit the code (templates/ckanext/sparql/index.html) to add your custom sparql endpoint URL and default query:
 
@@ -67,6 +67,6 @@ Line 54, After
 Replace the query
   
 Changelog
-------------
+=========
 
 Version: 1.01: Fix Bugs 
