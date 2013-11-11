@@ -67,6 +67,7 @@ def sparqlQuery(data_structure):
     elif request.params.get('type_response_query') == 'csv':
         response.content_type = 'text/plain'
         response.headers['Content-disposition'] = 'attachment; filename=query.csv'
+        response.charset = "utf-8-sig"
         data=json.loads(response_query, object_pairs_hook=collections.OrderedDict)
         output = []
         for result in data["head"]["vars"]:
