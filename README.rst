@@ -28,6 +28,7 @@ Installation
 
 	$ cd /usr/lib/ckan/default/src
 	$ git clone https://github.com/georgepm/ckanext-sparql.git
+	$ cd ckanext-sparql/
 	$ python setup.py develop
 
 Add it in your configuration file:
