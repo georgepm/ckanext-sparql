@@ -26,8 +26,7 @@ Installation
 ============
 ::
 
-	$ mkdir /usr/lib/ckan/default/src/ckanext-sparql
-	$ cd /usr/lib/ckan/default/src/ckanext-sparql
+	$ cd /usr/lib/ckan/default/src
 	$ git clone https://github.com/georgepm/ckanext-sparql.git
 	$ python setup.py develop
 
