@@ -43,7 +43,7 @@ Go the plugins line and add the ``sparql_interface`` plugin
 Reload Apache:
 ::
 
-	$ service apache2 reload
+	$ sudo service apache2 reload
   
 USE
 ===
