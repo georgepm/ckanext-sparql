@@ -5,7 +5,7 @@
 <meta name="description" content="Sparql EndPoint Interface.">
 
   	<header class="sparql_hideme">
-		<p>Sparql EndPoint Interface.</p>
+		<p>{{ _('Sparql EndPoint Interface.') }}</p>
 	</header>
 
 <!-- Sparql base CSS/JS and Jquery -->
@@ -24,29 +24,32 @@
 
 {% block breadcrumb_content %}
 
-  <li class="active">{{ 'Sparql Point' }}</li>
+  <li class="active">{{ _('Sparql Point') }}</li>
   
 {% endblock %}
 
 {% block primary %}
 
   	<header class="sparql_hideme">
-		<p>Sparql EndPoint Interface.</p>
+		<p>{{ _('Sparql EndPoint Interface.') }}</p>
 	</header>
 	
     <div id="sparql_point_block">
         
         <h1>SPARQL Editor</h1>
         
-        <div class="control-group control-full">
-        	<label class="control-label" for="field-sparql-server">Sparql Point Server</label>
+        <div class="control-group control-full" 
+        {% if h.sparql_hide_endpoint_url() %} 
+        	style="display:none; " 
+        {% endif %}>
+        	<label class="control-label" for="field-sparql-server">{{ _('Sparql Point Server') }}</label>
             <div class="controls">
-                <input id="field-sparql-server" type="text" name="sparql-server" value="http://dbpedia.org/sparql" placeholder="Add the sparql service URL. For Instance: http://dbpedia.org/sparql">
+                <input id="field-sparql-server" type="text" name="sparql-server" value="{{h.sparql_endpoint_url()}}" placeholder="{{ _('Add the Sparql service URL. For Instance:') }} {{h.sparql_endpoint_url()}}">
             </div>
-            <i class="icon-exclamation-sign"></i>&nbsp;<small>Add the Sparql service URL. For Instance: <abbr title="Sparql Point"><a target="_blank" href="http://semantic.ckan.net/sparql">http://semantic.ckan.net/sparql</a></abbr></small>
+            <i class="icon-exclamation-sign"></i>&nbsp;<small>{{ _('Add the Sparql service URL. For Instance:') }} <abbr title="Sparql Point"><a target="_blank" href="http://semantic.ckan.net/sparql">http://semantic.ckan.net/sparql</a></abbr></small>
         </div>
         
-		<i class="icon-comment"></i><small><abbr title="Code Mirror"><a target="_blank" href="http://codemirror.net/">&nbsp;Created using Code Mirror for the interface</a></abbr></small>
+		<i class="icon-comment"></i><small><abbr title="Code Mirror"><a target="_blank" href="http://codemirror.net/">&nbsp;{{ _('Created using Code Mirror for the interface') }}</a></abbr></small>
 		<br><br>
 
 		<div id="test_sparql" class="sparql_hideme"></div>
@@ -62,27 +65,27 @@ WHERE {
 LIMIT 20
 </textarea>
 
-        <button id="sparql_btn" class="btn" onclick="call_sparql_point_server();">Submit Query</button>
+        <button id="sparql_btn" class="btn" onclick="call_sparql_point_server();">{{ _('Submit Query') }}</button>
         
         <div id="sparql_link_query" class="control-group control-full">
-            <label class="control-label" for="field-link-sparql-server-query">Permanent links</label>
+            <label class="control-label" for="field-link-sparql-server-query">{{ _('Permanent links') }}</label>
             
-            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_json">JSON Format<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;(You can copy the permanent link below)</b></small><br>
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_json">{{ _('JSON Format') }}<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;({{ _('You can copy the permanent link below') }})</b></small><br>
             <div class="controls">
                 <input id="field-link-sparql-server-query_json" type="text" name="sparql-server-query" value="" placeholder="">
             </div>
             
-            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_turtle">TURTLE Format<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;(You can copy the permanent link below)</b></small><br>
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_turtle">{{ _('TURTLE Format') }}<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;({{ _('You can copy the permanent link below') }})</b></small><br>
             <div class="controls">
                 <input id="field-link-sparql-server-query_turtle" type="text" name="sparql-server-query" value="" placeholder="">
             </div>
             
-            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_csv">CSV Format<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;(You can copy the permanent link below)</b></small><br>
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_csv">{{ _('CSV Format') }}<i class="icon-link"></i></a></abbr><b>&nbsp;&nbsp;({{ _('You can copy the permanent link below') }})</b></small><br>
             <div class="controls">
                 <input id="field-link-sparql-server-query_csv" type="text" name="sparql-server-query" value="" placeholder="">
             </div>
             
-            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_query">Permanent Link for this Query (To save your Query)<i class="icon-link"></i></a></abbr></small>
+            <i class="icon-info-sign"></i>&nbsp;<small><abbr title="Link Query"><a target="_blank" id="go_to_link_query_query">{{ _('Permanent Link for this Query (To save your Query)') }}<i class="icon-link"></i></a></abbr></small>
             
             
         </div>
