@@ -118,12 +118,10 @@ def check_is_url(strtocheck):
 
 def endpoint_url():
 	endpointUrl = config.get('ckanext.sparql.endpoint_url', 'http://dbpedia.org/sparql')
-	log.debug("endpointUrl: " + endpointUrl)
 	return endpointUrl
 
 def hide_endpoint_url():
 	hideEndpointUrl = p.toolkit.asbool(config.get('ckanext.sparql.hide_endpoint_url', 'False'))
-	log.debug("hideEndpointUrl: %s" % hideEndpointUrl)
 	return hideEndpointUrl
 
 ### CLASS ###
