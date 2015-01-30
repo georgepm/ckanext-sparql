@@ -24,6 +24,7 @@ May be extended to use ``SPARQLWrapper`` (http://sparql-wrapper.sourceforge.net/
 
 Installation
 ============
+
 ::
 
 	$ cd /usr/lib/ckan/default/src
@@ -59,20 +60,27 @@ Querys work in:
 To send code through ``http`` to the sparql interface:
 ::
 	http://[Custom URL]/sparql?view_code=
+
+CONFIGURATION
+=============
+
+In your ``ckan.ini`` file set 
+```
+	ckanext.sparql.endpoint_url = <your default endpoint url>    (defaults to http://dbpedia.org/sparql)
+	ckanext.sparql.hide_endpoint_url = (true | false)    (defaults to false)
+```
   
 Notes
 =====
 
-You can edit the code ``templates/ckanext/sparql/index.html`` to add your custom sparql endpoint URL and default query:
-::
-	Line 44
-	<input..... value="http://[custom url]/sparql" placeholder=".....
-
-Then
-::
+To configure your own custom query 
+```
 	Line 54, After
 	<textarea id="sparql_code" name="sparql_code"  resize="both">
 	Here replace the query
+	...
+	</textarea>
+```
   
 Changelog
 =========
@@ -83,3 +91,10 @@ Example
 =======
 
 - http://data.upf.edu/sparql
+
+
+ToDos
+=====
+
+* internationalize
+* externalize configuration of default query
