@@ -2,7 +2,7 @@ from logging import getLogger
 import ckan.plugins as p
 from pylons import request, response, config
 #from SPARQLWrapper import SPARQLWrapper, JSON
-import urllib, json
+import urllib, urllib2, json
 import collections
 from urlparse import urlparse
 import csv
@@ -58,7 +58,7 @@ def sparqlQuery(data_structure):
     server = request.params.get('server')
     log.debug("server: " + server)
 
-    temp_result = urllib.urlopen(server, querypart)
+    temp_result = urllib2.urlopen(server, querypart)
     response_query = temp_result.read()
     log.debug("response_query: " + response_query)
     
