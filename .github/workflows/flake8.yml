@@ -1,0 +1,20 @@
+name: Prueba de flake8
+run-name: ${{ github.actor }} probando ckanext-sparql
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install requirements
+        run: pip install flake8 pycodestyle
+      - name: Check syntax
+        # Stop the build if there are Python syntax errors or undefined names
+        run: flake8 --count --statistics --show-source  --max-line-length=127 --exit-zero
+
+      - name: Warnings
+        run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --extend-exclude=""

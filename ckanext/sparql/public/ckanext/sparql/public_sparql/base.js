@@ -44,17 +44,23 @@ function call_sparql_point_server() {
 		data: {'query' : prefixes + get_sparql_string(), 'server' : $("#field-sparql-server").val(), 'direct_link': 0}, 
 		success: function(response) {
         	$('#sparql_results').html(response);
+        	        	
+        	base_address=queryHref()+ '/' + change_direct_link_value(this.url)
         	
-			$('#field-link-sparql-server-query_json').val('http://' + window.location.hostname + '/' + change_direct_link_value(this.url) + add_extra_fields_url('json'));
-			$('#go_to_link_query_json').attr("href", 'http://' + window.location.hostname + '/' + change_direct_link_value(this.url) + add_extra_fields_url('json'));
+			$('#field-link-sparql-server-query_json').val(base_address + add_extra_fields_url('json'));
+			$('#go_to_link_query_json').attr("href", base_address + add_extra_fields_url('json'));
 			
-			$('#field-link-sparql-server-query_turtle').val('http://' + window.location.hostname + '/' + change_direct_link_value(this.url) + add_extra_fields_url('turtle'));
-			$('#go_to_link_query_turtle').attr("href", 'http://' + window.location.hostname + '/' + change_direct_link_value(this.url) + add_extra_fields_url('turtle'));
+			$('#field-link-sparql-server-query_turtle').val(base_address + add_extra_fields_url('turtle'));
+			$('#go_to_link_query_turtle').attr("href", base_address + add_extra_fields_url('turtle'));
 			
-			$('#field-link-sparql-server-query_csv').val('http://' + window.location.hostname + '/' + change_direct_link_value(this.url) + add_extra_fields_url('csv'));
-			$('#go_to_link_query_csv').attr("href", 'http://' + window.location.hostname + '/' + change_direct_link_value(this.url) + add_extra_fields_url('csv'));
+			$('#field-link-sparql-server-query_csv').val(base_address + add_extra_fields_url('csv'));
+			$('#go_to_link_query_csv').attr("href", base_address + add_extra_fields_url('csv'));
 			
-			$('#go_to_link_query_query').attr("href", 'http://' + window.location.hostname + '/en/sparql?' + $.param({'view_code' : prefixes + editor.getValue()}));
+			console.log("base_address: %s",base_address)
+			console.log("")
+			
+			//$('#go_to_link_query_query').attr("href", 'http://' + window.location.hostname + '/en/sparql?' + $.param({'view_code' : prefixes + editor.getValue()}));
+			$('#go_to_link_query_query').attr("href", window.location.pathname + '?' + $.param({'view_code' : prefixes + editor.getValue()}));
 			
 			$('#sparql_results').show();
 			$('#sparql_link_query').show();
@@ -71,6 +77,7 @@ function call_sparql_point_server() {
 }
 
 function change_direct_link_value(url) {
+	console.log("url:"+url)
 	var new_url = url.substring(0, url.length-1);
 	return new_url + '1';
 }
@@ -137,4 +144,13 @@ function toUnicode(theString) {
     }
   }
   return unicodeString;
+}
+
+function queryHref() {
+	respuesta=window.location.origin;
+	steps=window.location.pathname.split("/");
+	for (var i=1; i < (steps.length-1); i++) {
+		respuesta+="/"+steps[i];
+	}
+	return respuesta;
 }
