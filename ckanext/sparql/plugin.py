@@ -1,172 +1,187 @@
-from logging import getLogger
-import ckan.plugins as p
-from pylons import request, response, config
-#from SPARQLWrapper import SPARQLWrapper, JSON
-import urllib, urllib2, json
 import collections
-from urlparse import urlparse
-import csv
+import json
+import urllib
+from logging import getLogger
+from urllib.parse import urlparse
+from urllib.request import urlopen
+
+import ckan.plugins as p
+import ckan.plugins.toolkit as tk
+from flask import Blueprint
 
 log = getLogger(__name__)
 
 ### SPARQL QUERY FUNCTIONS ###
 
 ## OPTIONAL: NOT USED ##
-'''def sparql_query_SPARQLWrapper(data_structure):
+"""def sparql_query_SPARQLWrapper(data_structure):
     c = p.toolkit.c
-    queryString = request.params.get('query')
-    sparql = SPARQLWrapper(request.params.get('server'))
+    queryString = tk.request.params.get('query')
+    sparql = SPARQLWrapper(tk.request.params.get('server'))
     sparql.setQuery(queryString)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
     c.sparql_query = queryString
     return results
-'''
+"""
+
 
 def sparqlQuery(data_structure):
-    
+    type_response_query = tk.request.params.get("type_response_query")
+
     c = p.toolkit.c
-    c.direct_link = request.params.get('direct_link')
-    
-    if request.params.get('type_response_query') == 'json': 
-        format="application/json"
-    elif request.params.get('type_response_query') == 'turtle':
-        format="text/turtle"
-    elif request.params.get('type_response_query') == 'csv':
-        #The conversion to csv is made later
-        format="application/json"
-    elif request.params.get('type_response_query') == 'js':
-        format="application/javascript"
+    c.direct_link = tk.request.params.get("direct_link")
+
+    if type_response_query == "json":
+        format = "application/json"
+    elif type_response_query == "turtle":
+        format = "text/turtle"
+    elif type_response_query == "csv":
+        # The conversion to csv is made later
+        format = "application/json"
+    elif type_response_query == "js":
+        format = "application/javascript"
     else:
         ## Default Format
-        format="application/json"
-    
-    params_query={
+        format = "application/json"
+
+    params_query = {
         "default-graph": "",
         "should-sponge": "soft",
-        "query": request.params.get('query'),
+        "query": tk.request.params.get("query"),
         "debug": "off",
         "timeout": "",
         "format": format,
         "save": "display",
-        "fname": ""
+        "fname": "",
     }
-    
+
     querypart = urllib.urlencode(params_query)
     log.debug("querypart: " + querypart)
 
-    server = request.params.get('server')
+    server = tk.request.params.get("server")
     log.debug("server: " + server)
 
-    temp_result = urllib2.urlopen(server, querypart)
+    temp_result = urlopen(server, querypart)
     response_query = temp_result.read()
     log.debug("response_query: " + response_query)
-    
-    if request.params.get('type_response_query') == 'json': 
-        data=json.loads(response_query, object_pairs_hook=collections.OrderedDict)
-        response.content_type = 'application/json'
-        #response.headers['Content-disposition'] = 'attachment; filename=query.json'
-        return json.dumps(data, separators=(',',':'))
-    elif request.params.get('type_response_query') == 'turtle':
-        response.content_type = 'text/turtle'
+
+    if type_response_query == "json":
+        data = json.loads(response_query, object_pairs_hook=collections.OrderedDict)
+        return json.dumps(data, separators=(",", ":"))
+    elif type_response_query == "turtle":
         return response_query
-    elif request.params.get('type_response_query') == 'csv':
-        response.content_type = 'text/plain'
-        response.headers['Content-disposition'] = 'attachment; filename=query.csv'
-        response.charset = "utf-8-sig"
-        data=json.loads(response_query, object_pairs_hook=collections.OrderedDict)
+    elif type_response_query == "csv":
+        data = json.loads(response_query, object_pairs_hook=collections.OrderedDict)
         output = []
         for result in data["head"]["vars"]:
-            output.append(result+",")
+            output.append(result + ",")
         output.append("\n")
-        
+
         for result in data["results"]["bindings"]:
             index = 0
             for attributes, values in result.items():
                 if attributes == data["head"]["vars"][index]:
-                    output.append("\"" + values['value'] + "\"" +',')
+                    output.append('"' + values["value"] + '"' + ",")
                     index += 1
                 else:
                     key = 0
                     for listheader in data["head"]["vars"]:
-                        if listheader != attributes and key>=index:
-                            output.append(',')
+                        if listheader != attributes and key >= index:
+                            output.append(",")
                         elif listheader == attributes:
-                            output.append("\"" + values['value'] + "\"" +',')
-                            index = key+1
+                            output.append('"' + values["value"] + '"' + ",")
+                            index = key + 1
                             break
                         key += 1
             output.append("\n")
         return "".join(output)
-    elif request.params.get('type_response_query') == 'js':
-        response.content_type = "application/javascript"   
+    elif type_response_query == "js":
         return response_query
-    elif request.params.get('type_response_query') == 'query':
-        return "data.upf.edu/sparql?view_code=" + request.params.get('query')
+    elif type_response_query == "query":
+        return "data.upf.edu/sparql?view_code=" + tk.request.params.get("query")
     else:
-        data=json.loads(response_query, object_pairs_hook=collections.OrderedDict)
+        data = json.loads(response_query, object_pairs_hook=collections.OrderedDict)
         return data
+
 
 ### GET FUNCTIONS ###
 
-#Returns get/post query param data
+# Returns get/post query param data
 def get_query():
-    return request.params.get('query')
+    return tk.request.params.get("query")
 
-#Returns get/post direct_link param to check whether to return in a specific format the data
+
+# Returns get/post direct_link param to check whether to return in a specific format the data
 def check_direct_link():
-    return request.params.get('direct_link')
+    return tk.request.params.get("direct_link")
 
-#Used to check whether a string is a url
+
+# Used to check whether a string is a url
 def check_is_url(strtocheck):
     results = urlparse(strtocheck)
     return results.scheme
 
+
 def endpoint_url():
-    endpointUrl = config.get('ckanext.sparql.endpoint_url', 'http://dbpedia.org/sparql')
-    #log.debug("endpointUrl: " + endpointUrl)
+    endpointUrl = tk.config.get(
+        "ckanext.sparql.endpoint_url", "http://dbpedia.org/sparql"
+    )
+    # log.debug("endpointUrl: " + endpointUrl)
     return endpointUrl
 
+
 def hide_endpoint_url():
-    hideEndpointUrl = p.toolkit.asbool(config.get('ckanext.sparql.hide_endpoint_url', 'False'))
-    #log.debug("hideEndpointUrl: %s" % hideEndpointUrl)
+    hideEndpointUrl = p.toolkit.asbool(
+        tk.config.get("ckanext.sparql.hide_endpoint_url", "False")
+    )
+    # log.debug("hideEndpointUrl: %s" % hideEndpointUrl)
     return hideEndpointUrl
+
+
+### CONTROLERS ###
+
+
+def index():
+    return tk.render("ckanext/sparql/index.html")
+
+
+def query_page():
+    return tk.render("ckanext/sparql/query.html")
+
 
 ### CLASS ###
 
-class SparqlPlugin(p.SingletonPlugin):
-    
-    #Ckan Stuff
-    
-    '''Sparql plugin.'''
 
-    p.implements(p.IRoutes, inherit=True)
+class SparqlPlugin(p.SingletonPlugin):
+
+    # Ckan Stuff
+
+    """Sparql plugin."""
+
+    p.implements(p.IBlueprint, inherit=True)
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.ITemplateHelpers, inherit=True)
 
-    def after_map(self, map):
-        map.connect('sparql', '/sparql',
-            controller='ckanext.sparql.controller:SparqlController',
-            action='index')
-        map.connect('sparql_query', '/query',
-            controller='ckanext.sparql.controller:SparqlController',
-            action='query_page')
-        return map
+    def get_blueprint(self):
+        blueprint = Blueprint("foo", self.__module__)
+        blueprint.add_url_rule("/sparql", "sparql", index)
+        blueprint.add_url_rule("/query", "sparql_query", query_page)
+        return blueprint
 
     def update_config(self, config):
-        p.toolkit.add_template_directory(config, 'templates')
-        p.toolkit.add_public_directory(config, 'public/ckanext/sparql')
-        p.toolkit.add_resource('public/ckanext/sparql', 'ckanext_sparql')
+        p.toolkit.add_template_directory(config, "templates")
+        p.toolkit.add_public_directory(config, "public/ckanext/sparql")
+        p.toolkit.add_resource("public/ckanext/sparql", "ckanext_sparql")
 
     ## TEMPLATE FUNCTIONS ##
 
     def get_helpers(self):
         return {
-                'get_query': get_query, 
-                'sparqlQuery': sparqlQuery, 
-                'check_direct_link': check_direct_link, 
-                'check_is_url': check_is_url,
-                'sparql_endpoint_url': endpoint_url,
-                'sparql_hide_endpoint_url': hide_endpoint_url
-                #'sparql_query_SPARQLWrapper': sparql_query_SPARQLWrapper
-                }
+            "get_query": get_query,
+            "sparqlQuery": sparqlQuery,
+            "check_direct_link": check_direct_link,
+            "check_is_url": check_is_url,
+            "sparql_endpoint_url": endpoint_url,
+            "sparql_hide_endpoint_url": hide_endpoint_url,
+        }

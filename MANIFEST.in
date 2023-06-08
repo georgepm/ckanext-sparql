@@ -1,0 +1,2 @@
+recursive-include ckanext/sparql/public *
+recursive-include ckanext/sparql/templates *
