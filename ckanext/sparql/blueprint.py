@@ -12,11 +12,11 @@ sparql = Blueprint(u'sparql', __name__)
 
 @sparql.route(u'/sparql')
 def index():
-    return render('ckanext/sparql/index.html')
+    return render('sparql/index.html')
 
 @sparql.route(u'/query')
 def query_page():
     if request.params.get('direct_link')=='0':
-        return render('ckanext/sparql/query.html')
+        return render('sparql/query.html')
     else:
         return utils_sparqlQuery('')

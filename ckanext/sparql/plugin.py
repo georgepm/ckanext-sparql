@@ -1,6 +1,7 @@
 import ckanext.sparql.helpers as sparql_helpers
 from logging import getLogger
 from ckanext.sparql import blueprint
+from ckan.lib.plugins import DefaultTranslation
 import ckan.plugins as p
 #from SPARQLWrapper import SPARQLWrapper, JSON
 import collections
@@ -25,7 +26,7 @@ logger = getLogger(__name__)
 
 ### CLASS ###
 
-class SparqlPlugin(p.SingletonPlugin):
+class SparqlPlugin(p.SingletonPlugin, DefaultTranslation):
     
     #Ckan Stuff
     
@@ -34,6 +35,7 @@ class SparqlPlugin(p.SingletonPlugin):
     p.implements(p.IBlueprint)
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.ITemplateHelpers, inherit=True)
+    p.implements(p.ITranslation)
 
     def get_blueprint(self):
         return blueprint.sparql

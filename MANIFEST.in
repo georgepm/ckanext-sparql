@@ -1,4 +1,4 @@
 include README.rst
 include requirements.txt
-recursive-include ckanext/iepnb *.html *.json *.js *.less *.css *.mo *.yml
-recursive-include ckanext/iepnb/migration *.ini *.py *.mako
+recursive-include ckanext/sparql *.html *.json *.js *.less *.css *.mo *.yml
+recursive-include ckanext/sparql/migration *.ini *.py *.mako
